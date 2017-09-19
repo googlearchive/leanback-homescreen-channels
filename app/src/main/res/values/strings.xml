@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (C) 2017 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- DO NOT TRANSLATE -->
+    <string name="app_name" translatable="false">Home Screen Channels</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="browse_title" translatable="false"><![CDATA[HomeScreenChannels]]></string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="search_results" translatable="false">Search Results</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="cant_play_video" translatable="false">Can\'t play video</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="channel_removed" translatable="false">Channel Removed</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="remove_program" translatable="false">Remove Program</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="another_option" translatable="false">Another Option</string>
+    <!-- DO NOT TRANSLATE -->
+    <string name="another_option_message" translatable="false">Another program action</string>
+    <!-- Text on a text button in the home screen of the app. Clicking this UI element adds the
+    channel mentioned in the description part of the button to the launcher -->
+    <string name="add_channel_button_text" translatable="false">Add channel</string>
+    <!-- Text shown below the add channel button (with text add_channel_button_text). This gives the
+    user more information about the actual channel they are adding. -->
+    <string name="add_channel_description_text" translatable="false">Add channel \"<xliff:g example="Dog videos" id="text">%1$s</xliff:g>\" to your home screen </string>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2017 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:focusable="false">
+
+    <!--
+        Setting nextFocusLeft and nextFocusRight to self
+        to disable default focus search in left and right directions.
+    -->
+    <TextView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/add_channels_row_button_height"
+        android:minWidth="@dimen/add_channel_button_text_min_width"
+        android:background="@drawable/add_channels_button_rounded_background"
+        android:clickable="true"
+        android:drawableStart="@drawable/ic_add_channel_plus_24dp"
+        android:drawablePadding="@dimen/add_channels_button_drawable_padding"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:nextFocusLeft="@id/button"
+        android:nextFocusRight="@id/button"
+        android:paddingEnd="@dimen/add_channels_button_text_horizontal_padding"
+        android:paddingStart="@dimen/add_channels_button_text_horizontal_padding"
+        android:text="@string/add_channel_button_text"
+        android:textColor="@color/add_channel_button_text_color" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/add_channel_description_text_top_margin"
+        android:text="@string/add_channel_description_text"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.google.android.tvhomescreenchannels">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
+    <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Leanback">
+
+        <activity
+            android:name=".MainActivity"
+            android:banner="@drawable/app_banner"
+            android:icon="@drawable/app_icon"
+            android:label="@string/app_name"
+            android:logo="@drawable/app_icon"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="tvhomescreenchannels"
+                    android:host="com.google.android.tvhomescreenchannels"
+                    android:path="/startapp" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".PlaybackActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="tvhomescreenchannels"
+                    android:host="com.google.android.tvhomescreenchannels"
+                    android:path="/resumevideo" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".TvSearchActivity" />
+
+        <activity
+            android:name=".RecommendationReceiverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="tvhomescreenchannels"
+                    android:host="com.google.android.tvhomescreenchannels"
+                    android:pathPrefix="/playvideo"
+                    />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".SynchronizeDatabaseJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
+
+        <receiver
+            android:name=".RunOnInstallReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.tv.action.INITIALIZE_PROGRAMS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".LauncherNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.tv.action.PREVIEW_PROGRAM_BROWSABLE_DISABLED" />
+                <action android:name="android.media.tv.action.WATCH_NEXT_PROGRAM_BROWSABLE_DISABLED" />
+                <action android:name="android.media.tv.action.PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT" />
+                <action android:name="android.media.tv.action.INITIALIZE_PROGRAMS" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".scheduler.AddWatchNextService"
+                 android:permission="android.permission.BIND_JOB_SERVICE"
+                 android:exported="true">
+        </service>
+
+        <service android:name=".scheduler.DeleteWatchNextService"
+                 android:permission="android.permission.BIND_JOB_SERVICE"
+                 android:exported="true">
+        </service>
+
+    </application>
+
+</manifest>

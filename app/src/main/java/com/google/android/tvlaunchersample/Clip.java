@@ -1,0 +1,183 @@
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.android.tvlaunchersample;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.media.tv.TvContractCompat;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/**
+ * Clip class represents video entity with title, description, image thumbs and video url.
+ */
+public class Clip implements Parcelable {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Clip createFromParcel(Parcel in) {
+            return new Clip(in);
+        }
+
+        public Clip[] newArray(int size) {
+            return new Clip[size];
+        }
+    };
+    private final String mClipId;
+    private final String mContentId;
+    private final String mTitle;
+    private final String mDescription;
+    private final String mBgImageUrl;
+    private final String mCardImageUrl;
+    private final String mVideoUrl;
+    private final String mPreviewVideoUrl;
+    private final String mCategory;
+    private int mAspectRatio;
+    private long mProgramId;
+    private int mViewCount;
+
+    Clip(String title, String description, String bgImageUrl, String cardImageUrl,
+            String videoUrl, String previewVideoUrl, String category,
+            String clipId, String contentId, int aspectRatio) {
+        mClipId = clipId;
+        mContentId = contentId;
+        mTitle = title;
+        mDescription = description;
+        mBgImageUrl = bgImageUrl;
+        mCardImageUrl = cardImageUrl;
+        mVideoUrl = videoUrl;
+        mPreviewVideoUrl = previewVideoUrl;
+        mCategory = category;
+        mAspectRatio = aspectRatio;
+    }
+
+    private Clip(Parcel in) {
+        mClipId = in.readString();
+        mContentId = in.readString();
+        mTitle = in.readString();
+        mDescription = in.readString();
+        mBgImageUrl = in.readString();
+        mCardImageUrl = in.readString();
+        mVideoUrl = in.readString();
+        mPreviewVideoUrl = in.readString();
+        mCategory = in.readString();
+        mProgramId = in.readLong();
+        mViewCount = in.readInt();
+    }
+
+    long getProgramId() {
+        return mProgramId;
+    }
+
+    void setProgramId(long programId) {
+        mProgramId = programId;
+    }
+
+    public String getClipId() {
+        return mClipId;
+    }
+
+    public String getContentId() {
+        return mContentId;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    String getVideoUrl() {
+        return mVideoUrl;
+    }
+
+    String getPreviewVideoUrl() {
+        return mPreviewVideoUrl;
+    }
+
+    String getBackgroundImageUrl() {
+        return mBgImageUrl;
+    }
+
+    public String getCardImageUrl() {
+        return mCardImageUrl;
+    }
+
+    URI getBackgroundImageURI() {
+        try {
+            return new URI(mBgImageUrl);
+        } catch (URISyntaxException e) {
+            return null;
+        }
+    }
+
+    URI getCardImageURI() {
+        try {
+            return new URI(getCardImageUrl());
+        } catch (URISyntaxException e) {
+            return null;
+        }
+    }
+
+    int incrementViewCount() {
+        return mViewCount += 1;
+    }
+
+    void setViewCount(int viewCount) {
+        mViewCount = viewCount;
+    }
+
+    @TvContractCompat.PreviewProgramColumns.AspectRatio
+    public int getAspectRatio() {
+        return mAspectRatio;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mClipId);
+        dest.writeString(mContentId);
+        dest.writeString(mTitle);
+        dest.writeString(mDescription);
+        dest.writeString(mBgImageUrl);
+        dest.writeString(mCardImageUrl);
+        dest.writeString(mVideoUrl);
+        dest.writeString(mPreviewVideoUrl);
+        dest.writeString(mCategory);
+        dest.writeLong(mProgramId);
+        dest.writeInt(mViewCount);
+    }
+
+    @Override
+    public String toString() {
+        return "Clip{" +
+                "clipId=" + mClipId +
+                ", contentId='" + mContentId + '\'' +
+                ", title='" + mTitle + '\'' +
+                ", videoUrl='" + mVideoUrl + '\'' +
+                ", backgroundImageUrl='" + mBgImageUrl + '\'' +
+                ", backgroundImageURI='" + getBackgroundImageURI().toString() + '\'' +
+                ", cardImageUrl='" + mCardImageUrl + '\'' +
+                ", aspectRatio='" + mAspectRatio + '\'' +
+                ", programId='" + mProgramId + '\'' +
+                ", viewCount='" + mViewCount + '\'' +
+                '}';
+    }
+}

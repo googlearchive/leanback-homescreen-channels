@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+android {
+    defaultConfig {
+        applicationId "com.google.android.tvhomescreenchannels"
+        minSdkVersion 26
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:leanback-v17:26.0.2'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.github.bumptech.glide:glide:4.1.1'
+    compile 'com.android.support:support-tv-provider:26.0.2'
+}

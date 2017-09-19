@@ -1,0 +1,29 @@
+# GOOGLE SAMPLE PACKAGING DATA
+#
+# This file is used by Google as part of our samples packaging process.
+# End users may safely ignore this file. It has no relevance to other systems.
+---
+# Values: {DRAFT | PUBLISHED | INTERNAL | DEPRECATED | SUPERCEDED}
+status:       PUBLISHED
+technologies: [Android]
+categories:   [Android TV]
+languages:    [Java]
+solutions:    [TV]
+# May be omitted if unpublished
+github:       googlesamples/leanback-homescreen-channels
+# Values: BEGINNER | INTERMEDIATE | ADVANCED | EXPERT
+level:        INTERMEDIATE
+# Dimensions: 512x512, PNG format
+icon: leanback-assistant/app/src/main/res/drawable/app_icon.png
+# List of APIs that this sample should be listed under. Use authoritative,
+# names that are unique for the product in question. Examples:
+#
+# Android -    android:<class-name>
+apiRefs:
+    - android:com.android.support:support-tv-provider
+    - android:android.support.media.tv.TvContractCompat
+    - android:android.support.media.tv.Channel
+    - android:android.support.media.tv.PreviewProgram
+# Default: apache2. May be omitted for most samples.
+# Alternatives: apache2-android (for AOSP)
+license: apache2

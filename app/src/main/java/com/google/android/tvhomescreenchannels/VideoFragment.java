@@ -1,4 +1,4 @@
-package com.google.android.tvlaunchersample;
+package com.google.android.tvhomescreenchannels;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -18,9 +18,9 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.tvlaunchersample.scheduler.AddWatchNextService;
-import com.google.android.tvlaunchersample.scheduler.ClipData;
-import com.google.android.tvlaunchersample.scheduler.DeleteWatchNextService;
+import com.google.android.tvhomescreenchannels.scheduler.AddWatchNextService;
+import com.google.android.tvhomescreenchannels.scheduler.ClipData;
+import com.google.android.tvhomescreenchannels.scheduler.DeleteWatchNextService;
 
 /**
  * Class for video playback fragment with media controls. It uses

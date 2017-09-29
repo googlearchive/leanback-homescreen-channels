@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample.scheduler;
+package com.google.android.tvhomescreenchannels.scheduler;
 
 /**
  * This class encapsulates all the clip fields that are passed to the AddWatchNextService which is

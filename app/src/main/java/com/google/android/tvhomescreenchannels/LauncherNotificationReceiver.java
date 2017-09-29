@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample;
+package com.google.android.tvhomescreenchannels;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

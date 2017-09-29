@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample;
+package com.google.android.tvhomescreenchannels;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -44,8 +44,8 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.tvlaunchersample.presenters.AddChannelPresenter;
-import com.google.android.tvlaunchersample.presenters.CardPresenter;
+import com.google.android.tvhomescreenchannels.presenters.AddChannelPresenter;
+import com.google.android.tvhomescreenchannels.presenters.CardPresenter;
 
 import java.net.URI;
 import java.util.HashMap;

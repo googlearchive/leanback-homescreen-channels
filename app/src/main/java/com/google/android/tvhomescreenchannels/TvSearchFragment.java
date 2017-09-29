@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample;
+package com.google.android.tvhomescreenchannels;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-import com.google.android.tvlaunchersample.presenters.CardPresenter;
+import com.google.android.tvhomescreenchannels.presenters.CardPresenter;
 
 public class TvSearchFragment extends SearchFragment
         implements SearchFragment.SearchResultProvider {

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample.presenters;
+package com.google.android.tvhomescreenchannels.presenters;
 
 import android.content.Context;
 import android.support.v17.leanback.widget.Presenter;
@@ -20,8 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.google.android.tvlaunchersample.Playlist;
-import com.google.android.tvlaunchersample.R;
+import com.google.android.tvhomescreenchannels.Playlist;
+import com.google.android.tvhomescreenchannels.R;
 
 /**
  * Renders the "Add channel" action button on the last row. The object bound to the action button is

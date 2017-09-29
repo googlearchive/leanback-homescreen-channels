@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample;
+package com.google.android.tvhomescreenchannels;
 
 import android.content.ComponentName;
 import android.content.ContentUris;
@@ -34,7 +34,7 @@ import android.support.media.tv.WatchNextProgram;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.android.tvlaunchersample.scheduler.ClipData;
+import com.google.android.tvhomescreenchannels.scheduler.ClipData;
 
 import java.util.List;
 

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample.presenters;
+package com.google.android.tvhomescreenchannels.presenters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,8 +23,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.google.android.tvlaunchersample.Clip;
-import com.google.android.tvlaunchersample.R;
+import com.google.android.tvhomescreenchannels.Clip;
+import com.google.android.tvhomescreenchannels.R;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.

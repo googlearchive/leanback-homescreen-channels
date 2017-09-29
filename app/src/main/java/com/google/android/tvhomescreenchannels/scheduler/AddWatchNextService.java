@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.android.tvlaunchersample.scheduler;
+package com.google.android.tvhomescreenchannels.scheduler;
 
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
@@ -24,7 +24,7 @@ import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.util.Log;
 
-import com.google.android.tvlaunchersample.SampleTvProvider;
+import com.google.android.tvhomescreenchannels.SampleTvProvider;
 
 /**
  * The service that's scheduled to run the task of adding a video to the watch next playlist

@@ -109,53 +109,66 @@ public class SampleTvProvider {
 
         // Check if program "key" has already been added.
         boolean isProgramPresent = false;
-        long watchNextProgramId = 0;
         Cursor cursor = null;
         try {
-            cursor = findCursorForWatchNextClipId(context, clipId);
+            cursor = context.getContentResolver().query(
+                    TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
+                    null, null);
             if (cursor != null) {
-                watchNextProgramId = cursor.getLong(COLUMN_WATCH_NEXT_ID_INDEX);
-                // If the clip exists in watch next programs, there are 2 cases:
-                // 1. The program was not removed by the user (browsable == 1) and we only need to
-                // update the existing info for that program
-                // 2. The program was removed by the user from watch next (browsable == 0), in which
-                // case we will first remove it from watch next database and then treat it as a new
-                // watch next program to be inserted.
-                if (cursor.getInt(COLUMN_WATCH_NEXT_COLUMN_BROWSABLE_INDEX) == 0) {
-                    int rowsDeleted = context.getContentResolver().delete(
-                            TvContractCompat.buildWatchNextProgramUri(watchNextProgramId), null,
-                            null);
-                    if (rowsDeleted < 1) {
-                        Log.e(TAG, "Delete program failed");
+                while (cursor.moveToNext()) {
+                    if (!cursor.isNull(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX)
+                            && TextUtils.equals(clipId, cursor.getString(
+                            COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
+                        // Found a row that contains an equal COLUMN_INTERNAL_PROVIDER_ID.
+                        long watchNextProgramId = cursor.getLong(COLUMN_WATCH_NEXT_ID_INDEX);
+                        // If the clip exists in watch next programs, there are 2 cases:
+                        // 1. The program was not removed by the user (browsable == 1) and we
+                        // only need to update the existing info for that program
+                        // 2. The program was removed by the user from watch next
+                        // (browsable== 0), in which case we will first remove it from watch
+                        // next database and then treat it as a new watch next program to be
+                        // inserted.
+                        if (cursor.getInt(COLUMN_WATCH_NEXT_COLUMN_BROWSABLE_INDEX) == 0) {
+                            int rowsDeleted = context.getContentResolver().delete(
+                                    TvContractCompat.buildWatchNextProgramUri(
+                                            watchNextProgramId), null,
+                                    null);
+                            if (rowsDeleted < 1) {
+                                Log.e(TAG, "Delete program failed");
+                            }
+                        } else {
+                            WatchNextProgram existingProgram = WatchNextProgram.fromCursor(
+                                    cursor);
+                            // Updating the following columns since when a program is added
+                            // manually through the launcher interface to the WatchNext row:
+                            // 1. watchNextType is set to WATCH_NEXT_TYPE_WATCHLIST which
+                            // should be changed to WATCH_NEXT_TYPE_CONTINUE when at least 1
+                            // minute of the video is played.
+                            // 2. The duration may not have been set for the programs in a
+                            // channel row since the video wasn't processed then to set this
+                            // column. Also setting lastPlaybackPosition to maintain the
+                            // correct progressBar upon returning to the launcher.
+                            WatchNextProgram.Builder builder = new WatchNextProgram.Builder(
+                                    existingProgram)
+                                    .setWatchNextType(TvContractCompat.WatchNextPrograms
+                                            .WATCH_NEXT_TYPE_CONTINUE)
+                                    .setLastPlaybackPositionMillis((int) clipData.getProgress())
+                                    .setDurationMillis((int) clipData.getDuration());
+                            ContentValues contentValues = builder.build().toContentValues();
+                            Uri watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(
+                                    watchNextProgramId);
+                            int rowsUpdated = context.getContentResolver().update(
+                                    watchNextProgramUri,
+                                    contentValues, null, null);
+                            if (rowsUpdated < 1) {
+                                Log.e(TAG, "Update program failed");
+                            }
+                            isProgramPresent = true;
+                        }
                     }
-                } else {
-                    isProgramPresent = true;
                 }
             }
-            if (isProgramPresent) {
-                WatchNextProgram existingProgram = WatchNextProgram.fromCursor(cursor);
-                // Updating the following columns since when a program is added manually through the
-                // launcher interface to the WatchNext row:
-                // 1. watchNextType is set to WATCH_NEXT_TYPE_WATCHLIST which should be changed to
-                // WATCH_NEXT_TYPE_CONTINUE when at least 1 minute of the video is played.
-                // 2. The duration may not have been set for the programs in a channel row since the
-                // video wasn't processed then to set this column.
-                // Also setting lastPlaybackPosition to maintain the correct progressBar upon
-                // returning to the launcher.
-                WatchNextProgram.Builder builder = new WatchNextProgram.Builder(existingProgram)
-                        .setWatchNextType(
-                                TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
-                        .setLastPlaybackPositionMillis((int) clipData.getProgress())
-                        .setDurationMillis((int) clipData.getDuration());
-                ContentValues contentValues = builder.build().toContentValues();
-                Uri watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(
-                        watchNextProgramId);
-                int rowsUpdated = context.getContentResolver().update(watchNextProgramUri,
-                        contentValues, null, null);
-                if (rowsUpdated < 1) {
-                    Log.e(TAG, "Update program failed");
-                }
-            } else {
+            if (!isProgramPresent) {
                 WatchNextProgram.Builder builder = new WatchNextProgram.Builder();
                 builder.setType(TvContractCompat.WatchNextPrograms.TYPE_CLIP)
                         .setWatchNextType(
@@ -193,40 +206,30 @@ public class SampleTvProvider {
     public static void deleteWatchNextContinue(Context context, String clipId) {
         Cursor cursor = null;
         try {
-            cursor = findCursorForWatchNextClipId(context, clipId);
+            cursor = context.getContentResolver().query(
+                    TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
+                    null, null);
             if (cursor != null) {
-                long watchNextProgramId = cursor.getLong(COLUMN_WATCH_NEXT_ID_INDEX);
-                int rowsDeleted = context.getContentResolver().delete(
-                        TvContractCompat.buildWatchNextProgramUri(watchNextProgramId), null, null);
-                if (rowsDeleted < 1) {
-                    Log.e(TAG, "Delete program failed");
+                while (cursor.moveToNext()) {
+                    if (!cursor.isNull(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX)
+                            && TextUtils.equals(clipId, cursor.getString(
+                            COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
+                        long watchNextProgramId = cursor.getLong(COLUMN_WATCH_NEXT_ID_INDEX);
+                        int rowsDeleted = context.getContentResolver().delete(
+                                TvContractCompat.buildWatchNextProgramUri(watchNextProgramId), null,
+                                null);
+                        if (rowsDeleted < 1) {
+                            Log.e(TAG, "Delete program failed");
+                        }
+                        SampleContentDb.getInstance(context).deleteClipProgress(clipId);
+                    }
                 }
-                SampleContentDb.getInstance(context).deleteClipProgress(clipId);
             }
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
-    }
-
-    @WorkerThread
-    private static Cursor findCursorForWatchNextClipId(Context context, String clipId) {
-        Cursor cursor = context.getContentResolver().query(
-                TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
-                null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                if (!cursor.isNull(COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX)) {
-                    // Found a row that contains a non-null COLUMN_INTERNAL_PROVIDER_ID.
-                    if (TextUtils.equals(clipId, cursor.getString(
-                            COLUMN_WATCH_NEXT_INTERNAL_PROVIDER_ID_INDEX))) {
-                        return cursor;
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     @WorkerThread
@@ -380,7 +383,7 @@ public class SampleTvProvider {
                             .INTERACTION_TYPE_VIEWS);
             int rowsUpdated = context.getContentResolver().update(
                     TvContractCompat.buildPreviewProgramUri(programId),
-                    builder.build().toContentValues(), null,null);
+                    builder.build().toContentValues(), null, null);
             if (rowsUpdated != 1) {
                 Log.e(TAG, "Update program failed");
             }

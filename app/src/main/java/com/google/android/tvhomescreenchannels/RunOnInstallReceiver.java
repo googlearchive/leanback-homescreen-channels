@@ -28,7 +28,7 @@ import android.util.Log;
  *      -n your.package.name/.YourReceiverName"
  *
  * Test in this sample app by "adb shell am broadcast -a android.media.tv.action.INITIALIZE_PROGRAMS
- *      -n com.google.android.tvlaunchersample/.RunOnInstallReceiver"
+ *      -n com.google.android.tvhomescreenchannels/.RunOnInstallReceiver"
  */
 public class RunOnInstallReceiver extends BroadcastReceiver {
     private static final String TAG = "RunOnInstallReceiver";
@@ -39,4 +39,3 @@ public class RunOnInstallReceiver extends BroadcastReceiver {
         SynchronizeDatabaseJobService.schedule(context);
     }
 }
-

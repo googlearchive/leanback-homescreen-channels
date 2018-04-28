@@ -30,6 +30,7 @@ import android.support.media.tv.ChannelLogoUtils;
 import android.support.media.tv.PreviewProgram;
 import android.support.media.tv.TvContractCompat;
 import android.support.media.tv.TvContractCompat.Channels;
+import android.support.media.tv.TvContractCompat.PreviewPrograms;
 import android.support.media.tv.WatchNextProgram;
 import android.text.TextUtils;
 import android.util.Log;
@@ -264,6 +265,21 @@ public class SampleTvProvider {
             final String clipId = clip.getClipId();
             final String contentId = clip.getContentId();
 
+            Uri previewProgramVideoUri;
+            if (clip.isVideoProtected()) {
+                // Create URI for TIF Input Service to be triggered
+                // content://android.media.tv/preview_program/<clipId>
+                ComponentName componentName = new ComponentName(context,
+                        PreviewVideoInputService.class);
+                previewProgramVideoUri = PreviewPrograms.CONTENT_URI.buildUpon()
+                        .appendEncodedPath(clipId)
+                        .appendQueryParameter("input", TvContractCompat.buildInputId(componentName))
+                        .build();
+            } else {
+                // Not a protected video, use public https:// URL.
+                previewProgramVideoUri = Uri.parse(clip.getPreviewVideoUrl());
+            }
+
             PreviewProgram program = new PreviewProgram.Builder()
                     .setChannelId(channelId)
                     .setTitle(clip.getTitle())
@@ -271,7 +287,7 @@ public class SampleTvProvider {
                     .setPosterArtUri(Uri.parse(clip.getCardImageUrl()))
                     .setIntentUri(Uri.parse(SCHEME + "://" + APPS_LAUNCH_HOST
                             + "/" + PLAY_VIDEO_ACTION_PATH + "/" + clipId))
-                    .setPreviewVideoUri(Uri.parse(clip.getPreviewVideoUrl()))
+                    .setPreviewVideoUri(previewProgramVideoUri)
                     .setInternalProviderId(clipId)
                     .setContentId(contentId)
                     .setWeight(weight)

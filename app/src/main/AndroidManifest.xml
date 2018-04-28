@@ -109,6 +109,19 @@
                  android:exported="true">
         </service>
 
+        <service android:name=".PreviewVideoInputService"
+            android:permission="android.permission.BIND_TV_INPUT">
+            <!-- Required filter used by the system to launch our account service. -->
+            <intent-filter>
+                <action android:name="android.media.tv.TvInputService" />
+            </intent-filter>
+            <!-- An XML file which describes this input. This provides pointers to
+            the PreviewInputSetupActivity to the system/TV app. -->
+            <meta-data
+                android:name="android.media.tv.input"
+                android:resource="@xml/previewvideoinputservice" />
+        </service>
+
     </application>
 
 </manifest>

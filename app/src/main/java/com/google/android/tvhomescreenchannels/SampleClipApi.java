@@ -191,9 +191,12 @@ class SampleClipApi {
                             ? videoId % YOUTUBE_VIDEO_START_INDEX
                             : videoId % (VIDEO_TITLES.length - YOUTUBE_VIDEO_START_INDEX)
                                     + YOUTUBE_VIDEO_START_INDEX;
+                    // Mocking protected videos for half of the playlist.
+                    boolean isVideoProtected = clipId % 2 == 0;
                     videos.add(new Clip(VIDEO_TITLES[videoIndex], VIDEO_DESCRIPTION,
                             BG_IMAGE_URLS[videoIndex], CARD_IMAGE_URLS[videoIndex],
-                            VIDEO_URLS[videoIndex], PREVIEW_VIDEO_URLS[videoIndex], "category",
+                            VIDEO_URLS[videoIndex], PREVIEW_VIDEO_URLS[videoIndex],
+                            isVideoProtected, "category",
                             Integer.toString(clipId), Integer.toString(videoIndex),
                             getNextAspectRatio()));
                 }
@@ -270,10 +273,11 @@ class SampleClipApi {
         int clipId = 1;
         for (int j = 0; j < numberOfVideos; ++j,
                 videoIndex = (videoIndex + 1) % VIDEO_TITLES.length, ++clipId) {
+            boolean isVideoProtected = clipId % 2 == 0; // Mocking protected videos for even videos.
             videos.add(new Clip(VIDEO_TITLES[videoIndex], VIDEO_DESCRIPTION,
                     BG_IMAGE_URLS[videoIndex], CARD_IMAGE_URLS[videoIndex], VIDEO_URLS[videoIndex],
-                    PREVIEW_VIDEO_URLS[videoIndex], "category", Integer.toString(clipId),
-                    Integer.toString(videoIndex), getNextAspectRatio()));
+                    PREVIEW_VIDEO_URLS[videoIndex], isVideoProtected, "category",
+                    Integer.toString(clipId), Integer.toString(videoIndex), getNextAspectRatio()));
         }
         return videos;
     }

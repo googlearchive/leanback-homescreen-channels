@@ -16,6 +16,7 @@ package com.google.android.tvhomescreenchannels;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.media.tv.BasePreviewProgram.AspectRatio;
 import android.support.media.tv.TvContractCompat;
 
 import java.net.URI;
@@ -42,13 +43,14 @@ public class Clip implements Parcelable {
     private final String mCardImageUrl;
     private final String mVideoUrl;
     private final String mPreviewVideoUrl;
+    private final boolean mIsVideoProtected;
     private final String mCategory;
     private int mAspectRatio;
     private long mProgramId;
     private int mViewCount;
 
     Clip(String title, String description, String bgImageUrl, String cardImageUrl,
-            String videoUrl, String previewVideoUrl, String category,
+            String videoUrl, String previewVideoUrl, boolean isVideoProtected, String category,
             String clipId, String contentId, int aspectRatio) {
         mClipId = clipId;
         mContentId = contentId;
@@ -58,6 +60,7 @@ public class Clip implements Parcelable {
         mCardImageUrl = cardImageUrl;
         mVideoUrl = videoUrl;
         mPreviewVideoUrl = previewVideoUrl;
+        mIsVideoProtected = isVideoProtected;
         mCategory = category;
         mAspectRatio = aspectRatio;
     }
@@ -71,6 +74,7 @@ public class Clip implements Parcelable {
         mCardImageUrl = in.readString();
         mVideoUrl = in.readString();
         mPreviewVideoUrl = in.readString();
+        mIsVideoProtected = in.readByte() == 1;
         mCategory = in.readString();
         mProgramId = in.readLong();
         mViewCount = in.readInt();
@@ -108,6 +112,10 @@ public class Clip implements Parcelable {
         return mPreviewVideoUrl;
     }
 
+    public boolean isVideoProtected() {
+        return mIsVideoProtected;
+    }
+
     String getBackgroundImageUrl() {
         return mBgImageUrl;
     }
@@ -140,7 +148,7 @@ public class Clip implements Parcelable {
         mViewCount = viewCount;
     }
 
-    @TvContractCompat.PreviewProgramColumns.AspectRatio
+    @AspectRatio
     public int getAspectRatio() {
         return mAspectRatio;
     }
@@ -160,6 +168,7 @@ public class Clip implements Parcelable {
         dest.writeString(mCardImageUrl);
         dest.writeString(mVideoUrl);
         dest.writeString(mPreviewVideoUrl);
+        dest.writeByte((byte) (isVideoProtected() ? 1 : 0));
         dest.writeString(mCategory);
         dest.writeLong(mProgramId);
         dest.writeInt(mViewCount);

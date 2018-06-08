@@ -56,7 +56,6 @@ public class AddWatchNextService extends JobService {
 
         scheduler.schedule(new JobInfo.Builder(1,
                 new ComponentName(context, AddWatchNextService.class))
-                .setMinimumLatency(0)
                 .setExtras(bundle)
                 .build());
     }

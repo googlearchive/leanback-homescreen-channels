@@ -44,7 +44,6 @@ public class DeleteWatchNextService extends JobService {
 
         scheduler.schedule(new JobInfo.Builder(1, new ComponentName(context,
                 DeleteWatchNextService.class))
-                .setMinimumLatency(0)
                 .setExtras(bundle)
                 .build());
     }

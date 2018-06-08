@@ -51,7 +51,6 @@ public class SynchronizeDatabaseJobService extends JobService {
         JobScheduler scheduler = context.getSystemService(JobScheduler.class);
         scheduler.schedule(new JobInfo.Builder(0,
                 new ComponentName(context, SynchronizeDatabaseJobService.class))
-                .setMinimumLatency(0L)
                 .build());
     }
 

@@ -43,7 +43,7 @@ public class DeleteWatchNextService extends JobService {
         bundle.putString(ID_KEY, clipId);
 
         scheduler.schedule(new JobInfo.Builder(1, new ComponentName(context,
-                DeleteWatchNextService.class))
+                DeleteWatchNextService.class)).setOverrideDeadline(0)
                 .setExtras(bundle)
                 .build());
     }

@@ -50,7 +50,7 @@ public class SynchronizeDatabaseJobService extends JobService {
     static void schedule(Context context) {
         JobScheduler scheduler = context.getSystemService(JobScheduler.class);
         scheduler.schedule(new JobInfo.Builder(0,
-                new ComponentName(context, SynchronizeDatabaseJobService.class))
+                new ComponentName(context, SynchronizeDatabaseJobService.class)).setOverrideDeadline(0)
                 .build());
     }
 

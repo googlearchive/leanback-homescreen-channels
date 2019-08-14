@@ -55,7 +55,7 @@ public class AddWatchNextService extends JobService {
         bundle.putString(CARD_IMAGE_URL_KEY, clipData.getCardImageUrl());
 
         scheduler.schedule(new JobInfo.Builder(1,
-                new ComponentName(context, AddWatchNextService.class))
+                new ComponentName(context, AddWatchNextService.class)).setOverrideDeadline(0)
                 .setExtras(bundle)
                 .build());
     }
